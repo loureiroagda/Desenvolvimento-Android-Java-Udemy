@@ -3,7 +3,7 @@
     <application>
         <activity
             android:name="com.example.appscursojavaudemy.MoedaActivity"
-            android:exported="false"
+            android:exported="true"
 
             />
     </application>
