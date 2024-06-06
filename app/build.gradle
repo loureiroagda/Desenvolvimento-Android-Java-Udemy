@@ -63,6 +63,11 @@ android {
             applicationIdSuffix ".aprendaIngles"
         }
 
+        minhasAnotacoes {
+            dimension "versao"
+            applicationIdSuffix ".minhasAnotacoes"
+        }
+
     }
 }
 
