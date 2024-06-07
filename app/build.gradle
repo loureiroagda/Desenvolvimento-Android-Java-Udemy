@@ -68,6 +68,11 @@ android {
             applicationIdSuffix ".minhasAnotacoes"
         }
 
+        listaTarefas {
+            dimension "versao"
+            applicationIdSuffix ".listaTarefas"
+        }
+
     }
 }
 
