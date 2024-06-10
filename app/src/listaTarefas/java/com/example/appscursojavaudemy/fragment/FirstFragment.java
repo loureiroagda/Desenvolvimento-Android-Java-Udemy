@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.appscursojavaudemy.R;
 import com.example.appscursojavaudemy.adapter.TarefaAdapter;
 import com.example.appscursojavaudemy.databinding.FragmentFirstBinding;
+import com.example.appscursojavaudemy.helper.RecyclerItemClickListener;
 import com.example.appscursojavaudemy.listas.Tarefa;
 
 import java.util.ArrayList;
@@ -49,7 +52,28 @@ public class FirstFragment extends Fragment {
             }
         });
 
-//        carregarTarefa();
+        binding.recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        getActivity(), binding.recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Toast.makeText(getActivity(), "Item Click", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                        Toast.makeText(getActivity(), "Item Long Click", Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                }
+                )
+        );
+
     }
 
     public void carregarTarefa(){
