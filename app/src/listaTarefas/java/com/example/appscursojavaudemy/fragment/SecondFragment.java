@@ -1,4 +1,4 @@
-package com.example.appscursojavaudemy;
+package com.example.appscursojavaudemy.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.appscursojavaudemy.R;
 import com.example.appscursojavaudemy.databinding.FragmentSecondBinding;
 
 public class SecondFragment extends Fragment {

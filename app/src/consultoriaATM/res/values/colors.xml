@@ -3,6 +3,6 @@
     <color name="colorPrimaryDark">#2196F3</color>
     <color name="colorPrimary">#025BA3</color>
     <color name="colorAccent">#69B8DC</color>
-    <color name="color_txt_escolha_ia">#585858</color>
+    <color name="color_transparente">#00585858</color>
     <color name="texto">#090909</color>
 </resources>
