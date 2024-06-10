@@ -18,9 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appscursojavaudemy.R;
 import com.example.appscursojavaudemy.adapter.TarefaAdapter;
-import com.example.appscursojavaudemy.databinding.FragmentFirstBinding;
+import com.example.appscursojavaudemy.databinding.FragmentListaTarefaBinding;
 import com.example.appscursojavaudemy.helper.DBHelper;
 import com.example.appscursojavaudemy.helper.RecyclerItemClickListener;
+import com.example.appscursojavaudemy.helper.TarefaDAO;
 import com.example.appscursojavaudemy.listas.Tarefa;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class TarefaListaFragment extends Fragment {
 
-    private FragmentFirstBinding binding;
+    private FragmentListaTarefaBinding binding;
     private TarefaAdapter adapter;
     private List<Tarefa> list = new ArrayList<>();
 
@@ -40,7 +41,7 @@ public class TarefaListaFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        binding = FragmentListaTarefaBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -78,28 +79,14 @@ public class TarefaListaFragment extends Fragment {
                 )
         );
 
-//        db = new DBHelper(getActivity());
-//
-//        ContentValues cv = new ContentValues();
-//        cv.put("nome", "Teste");
-//        db.getWritableDatabase().insert("tarefas", null, cv);
 
     }
 
     public void carregarTarefa(){
 
         //Lista de Tarefas
-        Tarefa tarefa1 = new Tarefa();
-        tarefa1.setTxTarefa("Tarefa 1");
-        list.add(tarefa1);
-
-        Tarefa tarefa2 = new Tarefa();
-        tarefa2.setTxTarefa("Tarefa 2");
-        list.add(tarefa2);
-
-        Tarefa tarefa3 = new Tarefa();
-        tarefa3.setTxTarefa("Tarefa 3");
-        list.add(tarefa3);
+        TarefaDAO tarefaDAO = new TarefaDAO(getActivity());
+        list = tarefaDAO.listar();
 
 
         //Configurar adapter

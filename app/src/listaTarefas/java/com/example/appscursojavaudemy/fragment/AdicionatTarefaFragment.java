@@ -14,11 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.appscursojavaudemy.R;
-import com.example.appscursojavaudemy.databinding.FragmentSecondBinding;
+import com.example.appscursojavaudemy.databinding.FragmentAddTarefaBinding;
+import com.example.appscursojavaudemy.helper.TarefaDAO;
+import com.example.appscursojavaudemy.listas.Tarefa;
 
 public class AdicionatTarefaFragment extends Fragment {
 
-    private FragmentSecondBinding binding;
+    private FragmentAddTarefaBinding binding;
     private int menu;
 
     @Override
@@ -27,23 +29,13 @@ public class AdicionatTarefaFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentSecondBinding.inflate(inflater, container, false);
+        binding = FragmentAddTarefaBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        String teste = binding.editText.getHint().toString();
-
-        binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(AdicionatTarefaFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
-            }
-        });
 
         setHasOptionsMenu(true);
 
@@ -62,8 +54,22 @@ public class AdicionatTarefaFragment extends Fragment {
         {
             case R.id.salvar:
                 //Execução da ação
-                Toast.makeText(getActivity(), "Tarefa salva", Toast.LENGTH_LONG).show();
-                break;
+                TarefaDAO tarefaDAO = new TarefaDAO(getActivity());
+                String texto = binding.editText.getText().toString();
+
+                if(!texto.isEmpty())
+                {
+                    Tarefa tarefa = new Tarefa();
+                    tarefa.setTxTarefa(texto);
+                    tarefaDAO.salvar(tarefa);
+                    NavHostFragment.findNavController(AdicionatTarefaFragment.this)
+                            .navigate(R.id.action_SecondFragment_to_FirstFragment);
+                }else {
+
+                    Toast.makeText(getActivity(), "Escreva alguma coisa", Toast.LENGTH_LONG).show();
+                }
+
+
         }
         return super.onOptionsItemSelected(item);
     }
