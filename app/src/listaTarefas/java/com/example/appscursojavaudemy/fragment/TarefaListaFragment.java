@@ -1,5 +1,6 @@
 package com.example.appscursojavaudemy.fragment;
 
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,17 +19,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.appscursojavaudemy.R;
 import com.example.appscursojavaudemy.adapter.TarefaAdapter;
 import com.example.appscursojavaudemy.databinding.FragmentFirstBinding;
+import com.example.appscursojavaudemy.helper.DBHelper;
 import com.example.appscursojavaudemy.helper.RecyclerItemClickListener;
 import com.example.appscursojavaudemy.listas.Tarefa;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirstFragment extends Fragment {
+public class TarefaListaFragment extends Fragment {
 
     private FragmentFirstBinding binding;
     private TarefaAdapter adapter;
     private List<Tarefa> list = new ArrayList<>();
+
+    private DBHelper db;
 
     @Override
     public View onCreateView(
@@ -47,7 +51,7 @@ public class FirstFragment extends Fragment {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
+                NavHostFragment.findNavController(TarefaListaFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
             }
         });
@@ -73,6 +77,12 @@ public class FirstFragment extends Fragment {
                 }
                 )
         );
+
+//        db = new DBHelper(getActivity());
+//
+//        ContentValues cv = new ContentValues();
+//        cv.put("nome", "Teste");
+//        db.getWritableDatabase().insert("tarefas", null, cv);
 
     }
 
