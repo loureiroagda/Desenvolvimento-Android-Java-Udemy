@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static int VERSAO = 1;
+    public static int VERSAO = 2;
     public static String NOME_DB = "dbTarefa";
     public static String TABELA = "tarefas";
 

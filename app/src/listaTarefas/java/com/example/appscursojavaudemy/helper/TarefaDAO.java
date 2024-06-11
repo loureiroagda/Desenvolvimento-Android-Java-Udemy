@@ -43,12 +43,36 @@ public class TarefaDAO implements ITarefaDAO{
 
     @Override
     public boolean atualizar(Tarefa tarefa) {
-        return false;
+
+        ContentValues cv = new ContentValues();
+        cv.put("nome", tarefa.getTxTarefa());
+
+        try {
+            String[] item = {tarefa.getId().toString()};
+            escrever.update(DBHelper.TABELA,cv, "id=?", item);
+            Log.i("Info db", "Tarefa salva com sucesso");
+        }catch (Exception e){
+
+            Log.i("Info db", "Erro ao salvar a tarefa");
+            return false;
+        }
+
+        return true;
     }
 
     @Override
     public boolean deletar(Tarefa tarefa) {
-        return false;
+
+        String[] item = {tarefa.getId().toString()};
+        try {
+            escrever.delete(DBHelper.TABELA,"id=?", item);
+            Log.i("Info db", "Tarefa salva com sucesso");
+        }catch (Exception e){
+
+            Log.i("Info db", "Erro ao salvar a tarefa");
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -76,4 +100,30 @@ public class TarefaDAO implements ITarefaDAO{
         }
         return tarefaList;
     }
+
+    @Override
+    public String selectString(Long id) {
+        String texto = null;
+        String sql = "SELECT nome FROM " + DBHelper.TABELA + " WHERE id = ?;";
+        Cursor c = null;
+
+        try {
+            // Usa a instrução rawQuery com um parâmetro
+            c = ler.rawQuery(sql, new String[]{String.valueOf(id)});
+
+            // Verifica se há resultados
+            if (c != null && c.moveToFirst()) {
+                texto = c.getString(c.getColumnIndexOrThrow("nome"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (c != null) {
+                c.close(); // Fecha o cursor para liberar recursos
+            }
+        }
+
+        return texto;
+    }
+
 }

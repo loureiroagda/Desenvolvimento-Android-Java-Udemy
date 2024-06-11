@@ -21,7 +21,9 @@ import com.example.appscursojavaudemy.listas.Tarefa;
 public class AdicionatTarefaFragment extends Fragment {
 
     private FragmentAddTarefaBinding binding;
-    private int menu;
+    public Long idEdit;
+
+    public String texto = null;
 
     @Override
     public View onCreateView(
@@ -39,6 +41,11 @@ public class AdicionatTarefaFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
+        texto = recuperarDado();
+        if (texto != null)
+        {
+            binding.editText.setText(texto);
+        }
     }
 
     @Override
@@ -47,27 +54,62 @@ public class AdicionatTarefaFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    public String recuperarDado(){
+        Bundle bundle = getArguments();
+        if (bundle != null)
+        {
+            TarefaDAO tarefaDAO = new TarefaDAO(getActivity());
+            String txt = tarefaDAO.selectString(bundle.getLong("testeBundle"));
+            idEdit = bundle.getLong("testeBundle");
+            return txt;
+
+        }else
+        {
+            binding.editText.setText("");
+            return null;
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId())
         {
             case R.id.salvar:
-                //Execução da ação
+                Tarefa tarefa = new Tarefa();
                 TarefaDAO tarefaDAO = new TarefaDAO(getActivity());
-                String texto = binding.editText.getText().toString();
+                //Edição
+                if (texto != null){
 
-                if(!texto.isEmpty())
-                {
-                    Tarefa tarefa = new Tarefa();
+                    texto = binding.editText.getText().toString();
                     tarefa.setTxTarefa(texto);
-                    tarefaDAO.salvar(tarefa);
+                    tarefa.setId(idEdit);
+
+                    if(tarefaDAO.atualizar(tarefa)){
+                        Toast.makeText(getActivity(), "Tarefa atualizada com sucesso", Toast.LENGTH_LONG).show();
+                    }else{Toast.makeText(getActivity(), "Erro ao atualizar tarefa", Toast.LENGTH_LONG).show();}
+
                     NavHostFragment.findNavController(AdicionatTarefaFragment.this)
                             .navigate(R.id.action_SecondFragment_to_FirstFragment);
-                }else {
 
-                    Toast.makeText(getActivity(), "Escreva alguma coisa", Toast.LENGTH_LONG).show();
+                }else{//salvar
+
+                    texto = binding.editText.getText().toString();
+                    if(!texto.isEmpty())
+                    {
+                        tarefa.setTxTarefa(texto);
+
+                        if(tarefaDAO.salvar(tarefa)){
+                            Toast.makeText(getActivity(), "Tarefa salva com sucesso", Toast.LENGTH_SHORT).show();
+                        }else{Toast.makeText(getActivity(), "Erro ao salvar tarefa", Toast.LENGTH_SHORT).show();}
+
+                        NavHostFragment.findNavController(AdicionatTarefaFragment.this)
+                                .navigate(R.id.action_SecondFragment_to_FirstFragment);
+                    }else {
+                        Toast.makeText(getActivity(), "Escreva alguma coisa", Toast.LENGTH_LONG).show();
+                    }
                 }
+                break;
 
 
         }
